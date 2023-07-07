@@ -1,7 +1,6 @@
 const Sequelize = require("sequelize");
 
 const sequelize = require("../../../util/database");
-const Transaction = require("../transactions/transaction");
 
 const User = sequelize.define("user", {
   id: {

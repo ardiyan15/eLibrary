@@ -47,3 +47,14 @@ exports.index = async (req, res, next) => {
     transaction,
   });
 };
+
+exports.closeOrder = async (req, res, next) => {
+  const { transaction_id } = req.body;
+
+  let transaction = await Transactions.findByPk(transaction_id);
+
+  transaction.status = 3;
+  transaction.save();
+
+  res.redirect("/");
+};

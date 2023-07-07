@@ -5,4 +5,6 @@ const transactionController = require("../../../controllers/frontoffice/transact
 
 router.get("/transaction", transactionController.index);
 
+router.post("/transaction", transactionController.closeOrder);
+
 module.exports = { router };
