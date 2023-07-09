@@ -1,0 +1,57 @@
+<%- include('../includes/head.ejs') %> <%-
+include('../includes/navigation.ejs')%>
+
+<div class="container-fluid">
+  <div class="card shadow">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Transaction Detail</h6>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <table>
+          <tr>
+            <td width="140">Customer Name</td>
+            <td width="20">:</td>
+            <td>Ardiyan Agus</td>
+          </tr>
+          <tr>
+            <td width="140">Address Delivery</td>
+            <td width="20">:</td>
+            <td>Jl Kenari Elok Blok A9 No. 22 Pasar Kemis</td>
+          </tr>
+          <tr>
+            <td width="140">Status</td>
+            <td width="20">:</td>
+            <td>
+              <span class="badge badge-success">Complete</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered dataTable" id="dataTable">
+        <thead>
+          <tr>
+            <th class="text-center">No</th>
+            <th class="text-center">ISBN</th>
+            <th class="text-center">Item Name</th>
+            <th class="text-center">Gnere</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i = 0; i < transactions.length; i) { %>
+          <tr>
+            <td class="text-center"><%= i %></td>
+            <td class="text-center"><%= transactions[i].transaction_details.book.isbn %></td>
+            <td class="text-center"><%= transactions[i].transaction_details.book.title %></td>
+            <td class="text-center"><%= transactions[i].transaction_details.book.category %></td>
+          </tr>
+          <% i++ } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include('../includes/end.ejs') %>

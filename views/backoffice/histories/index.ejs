@@ -1,0 +1,44 @@
+<%- include('../includes/head.ejs') %> <%-
+include('../includes/navigation.ejs')%>
+
+<div class="container-fluid">
+  <div class="card shadow">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">History Transaction</h6>
+    </div>
+    <div class="card-body">
+      <input type="hidden" id="text-alert" value="<%= flashMessage[0] %>" />
+      <table class="table table-bordered dataTable" id="dataTable">
+        <thead>
+          <tr>
+            <th class="text-center">No</th>
+            <th class="text-center"><%= label.table.transaction %></th>
+            <th class="text-center">Delivery Address</th>
+            <th class="text-center">Qty Item</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% let i = 1; %> <% transactions.forEach(transaction => { %>
+          <tr>
+            <td class="text-center"><%= i++ %></td>
+            <td class="text-center"><%= transaction.transaction_number %></td>
+            <td class="text-center"><%= transaction.address_delivery %></td>
+            <td class="text-center"><%= transaction.qty_item %></td>
+            <td class="text-center">
+              <a
+                href="/backoffice/histories/<%= transaction.id %>"
+                class="btn btn-info btn-sm rounded"
+                >Detail</a
+              >
+            </td>
+          </tr>
+          <% }) %>
+          <tr></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include('../includes/end.ejs') %>

@@ -6,6 +6,7 @@ const sequelize = require("../../../util/database");
 const Book = require("../../../models/backoffice/books/book");
 const Rating = require("../../../models/frontoffice/rating");
 const Banner = require("../../../models/backoffice/banners/banner");
+const Transaction_detail = require("../../../models/backoffice/transaction_details/transaction_details");
 
 exports.getHome = async (req, res, next) => {
   let isLoggedIn = false;
