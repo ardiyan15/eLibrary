@@ -23,6 +23,7 @@ const bannerRoutes = require("./routes/backoffice/banners/index");
 const categoriesRoutes = require("./routes/backoffice/categories/index");
 const transactionRoutes = require("./routes/backoffice/transactions/index");
 const historyRoutes = require("./routes/backoffice/histories/index");
+const menuRoutes = require("./routes/backoffice/menus/index");
 const authController = require("./routes/backoffice/auth/index");
 const errorController = require("./controllers/backoffice/404/index");
 
@@ -127,6 +128,7 @@ app.use("/backoffice", bannerRoutes.router);
 app.use("/backoffice", categoriesRoutes.router);
 app.use("/backoffice", transactionRoutes.router);
 app.use("/backoffice", historyRoutes.router);
+app.use("/backoffice", menuRoutes.router);
 app.use("/backoffice", authController.router);
 
 app.use(isAuth, errorController.get404);

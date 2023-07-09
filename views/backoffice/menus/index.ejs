@@ -1,0 +1,28 @@
+<%- include('../includes/head.ejs') %> <%-
+include('../includes/navigation.ejs')%>
+<script src="/js/sweetalert2.all.min.js"></script>
+<div class="container-fluid">
+  <a href="/backoffice/menus/form" class="btn btn-primary btn-sm mb-3 rounded"
+    >Add Menu</a
+  >
+  <div class="card shadow">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Master Menu</h6>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered dataTable" id="dataTable">
+        <thead>
+          <tr>
+            <th class="text-center">No</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Description</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<%- include('../includes/end.ejs') %>

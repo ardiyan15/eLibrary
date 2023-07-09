@@ -2,25 +2,25 @@ const Sequelize = require("sequelize");
 
 const sequelize = require("../../../util/database");
 
-const Transaction = sequelize.define("transaction", {
+const Menu = sequelize.define("menu", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
-  transaction_number: {
+  name: {
     type: Sequelize.STRING,
   },
-  address_delivery: {
+  descriptioln: {
     type: Sequelize.TEXT,
   },
   status: {
-    type: Sequelize.BOOLEAN,
+    type: Sequelize.INTEGER(2),
   },
-  created_by: {
-    type: Sequelize.STRING,
+  icon: {
+    type: Sequelize.TEXT,
   },
 });
 
-module.exports = Transaction;
+module.exports = Menu;
