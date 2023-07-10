@@ -6,68 +6,60 @@
       <h6 class="m-0 font-weight-bold text-primary"><%= formTitle %></h6>
     </div>
     <div class="card-body">
-        <% action = '';  %>
-        <% if(menu.id) { %>
-        <% action = `/backoffice/updateuser/${userIdEncrypted}` %>
-        <% } else { %>
-        <% action = '/backoffice/users'%>
-        <% } %>
+      <% action = ''; %> <% if(menu.id) { %> <% action =
+      `/backoffice/updatemenu/${menuIdEncrypted}` %> <% } else { %> <% action =
+      '/backoffice/menus'%> <% } %>
       <form action="<%= action %>" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="destination" value="users">
-        <input type="hidden" name="id" value="<%= menu.id ? userIdEncrypted : '' %>">
+        <input
+          type="hidden"
+          name="id"
+          value="<%= menu.id ? menuIdEncrypted : '' %>"
+        />
         <div class="row">
           <div class="col-md-6 form-group">
-            <label for="username">Username</label>
+            <label for="username">Name</label>
             <input
               type="text"
-              name="username"
-              id="username"
+              name="name"
+              id="name"
               class="form-control"
-              placeholder="Username"
+              placeholder="Name"
               required
-              value=""
+              value="<%= menu.name ? menu.name : '' %>"
             />
           </div>
           <div class="col-md-6 form-group">
-            <label for="password">Password</label>
+            <label for="password">Description</label>
             <input
-              type="password"
-              name="password"
-              id="password"
+              type="text"
+              name="description"
+              id="description"
               class="form-control"
-              placeholder="Password"
+              placeholder="Description"
+              value="<%= menu.description ? menu.description : '' %>"
             />
           </div>
           <div class="col-md-6 form-group">
-            <label for="email">Email</label>
+            <label for="email">Icon</label>
             <input
-              type="email"
-              name="email"
-              id="email"
+              type="text"
+              name="icon"
+              id="icon"
               class="form-control"
-              placeholder="Email"
+              placeholder="Icon"
               required
-              value=""
+              value="<%= menu.icon ? menu.icon : '' %>"
             />
-          </div>
-          <div class="col-md-6 form-group">
-            <label for="roles">Roles</label>
-            <select name="roles" id="roles" class="form-control" required>
-              <option value="" selected>-- Select Roles --</option>
-              <option value="admin" <%= menu.roles == 'admin' ? "selected" : "" %>>Admin</option>
-              <option value="user" <%= menu.roles == 'user' ? "selected" : "" %>>User</option>
-            </select>
-          </div>
-          <div class="col-md-6 form-group">
-            <label for="image">Image</label>
-            <input type="file" name="image" id="image">
           </div>
         </div>
-        <a href="/backoffice/users" class="btn btn-secondary btn-sm rounded"
+        <a href="/backoffice/menus" class="btn btn-secondary btn-sm rounded"
           >Back</a
         >
-        <button type="submit" class="btn btn-primary btn-sm rounded"><%= buttonText %></button>
+        <button type="submit" class="btn btn-primary btn-sm rounded">
+          <%= buttonText %>
+        </button>
       </form>
     </div>
   </div>
 </div>
+<%- include('../includes/end.ejs') %>

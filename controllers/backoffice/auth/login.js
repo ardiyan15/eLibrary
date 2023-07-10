@@ -24,9 +24,6 @@ exports.postLogin = async (req, res, next) => {
     const checkPassword = await bcrypt.compare(password, user.password);
     if (checkPassword) {
       delete user.password;
-      let backOffice = {
-        user,
-      };
       req.session.isLoggedIn = true;
       req.session.backOffice = user;
       res.redirect("/backoffice/home");

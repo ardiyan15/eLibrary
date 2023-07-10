@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 
 const sequelize = require("../../../util/database");
+const Transaction_detail = require("../transaction_details/transaction_details");
 
 const Transaction = sequelize.define("transaction", {
   id: {
@@ -24,3 +25,11 @@ const Transaction = sequelize.define("transaction", {
 });
 
 module.exports = Transaction;
+
+Transaction.hasMany(Transaction_detail, {
+  foreignKey: "transaction_id",
+});
+
+Transaction_detail.belongsTo(Transaction, {
+  foreignKey: "transaction_id",
+});

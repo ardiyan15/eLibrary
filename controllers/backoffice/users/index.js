@@ -93,7 +93,7 @@ exports.deleteUser = (req, res, next) => {
     .then((user) => {
       return user.destroy();
     })
-    .then((result) => {
+    .then(() => {
       req.flash("success", "Successfully delete user");
       res.redirect("/backoffice/users");
     })

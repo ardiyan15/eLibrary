@@ -7,7 +7,7 @@ include('../includes/navigation.ejs')%>
   >
   <div class="card shadow">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Master Menu</h6>
+      <h6 class="m-0 font-weight-bold text-primary">Master Sub Menu</h6>
     </div>
     <div class="card-body">
       <input type="hidden" id="text-alert" value="<%= flashMessage[0] %>" />
@@ -15,43 +15,14 @@ include('../includes/navigation.ejs')%>
         <thead>
           <tr>
             <th class="text-center">No</th>
+            <th class="text-center">Parent Menu</th>
             <th class="text-center">Name</th>
             <th class="text-center">Description</th>
             <th class="text-center">Status</th>
             <th class="text-center">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <% let i = 1; %> <% menus.forEach(menu => { %>
-          <tr>
-            <td class="text-center"><%= i++ %></td>
-            <td class="text-center"><%= menu.name %></td>
-            <td class="text-center"><%= menu.description %></td>
-            <td class="text-center"><%- menu.status[0].status %></td>
-            <td class="text-center">
-              <form method="POST" action="/backoffice/menuDelete">
-                <a
-                  href="/backoffice/menus/<%= encrypt(menu.id) %>"
-                  class="text-center btn btn-info btn-sm rounded"
-                  >Edit
-                </a>
-                <input
-                  type="hidden"
-                  value="<%= encrypt(menu.id) %>"
-                  name="menuId"
-                  id="menuId"
-                />
-                <button
-                  class="text-center btn btn-danger btn-sm rounded delete-confirm"
-                >
-                  Delete
-                </button>
-                <%- menu.status[0].button %>
-              </form>
-            </td>
-          </tr>
-          <% }) %>
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
   </div>
