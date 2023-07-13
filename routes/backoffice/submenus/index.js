@@ -5,4 +5,6 @@ const subMenuController = require("../../../controllers/backoffice/submenus/inde
 
 router.get("/submenus", subMenuController.getSubMenus);
 
+router.get("/submenus/form", subMenuController.getAddSubMenu);
+
 module.exports = { router };
