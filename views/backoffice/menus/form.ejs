@@ -6,7 +6,7 @@
       <h6 class="m-0 font-weight-bold text-primary"><%= formTitle %></h6>
     </div>
     <div class="card-body">
-      <% action = ''; %> <% if(menu.id) { %> <% action =
+      <% action = ''; console.log %> <% if(menu.id) { %> <% action =
       `/backoffice/updatemenu/${menuIdEncrypted}` %> <% } else { %> <% action =
       '/backoffice/menus'%> <% } %>
       <form action="<%= action %>" method="POST" enctype="multipart/form-data">

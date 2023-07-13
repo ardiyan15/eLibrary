@@ -35,14 +35,18 @@
     </a>
     <div
       id="collapseTwo"
-      class="collapse"
+      class="collapse <%= isShow ? 'show' : '' %>"
       aria-labelledby="headingTwo"
       data-parent="#accordionSidebar"
     >
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Master Data</h6>
         <a class="collapse-item" href="/backoffice/menus">Menu</a>
-        <a class="collapse-item" href="/backoffice/submenus">Sub Menu</a>
+        <a
+          class="collapse-item <%= isShow ? 'active' : '' %>"
+          href="/backoffice/submenus"
+          >Sub Menu</a
+        >
         <a class="collapse-item" href="/backoffice/users">Users</a>
         <a class="collapse-item" href="/backoffice/Books">Books</a>
         <a class="collapse-item" href="/backoffice/categories">Categories</a>

@@ -5,9 +5,9 @@ const menuController = require("../../../controllers/backoffice/menus/index");
 
 router.get("/menus", menuController.getMenus);
 
-router.get("/menus/:id", menuController.getMenu);
-
 router.get("/menus/form", menuController.addMenu);
+
+router.get("/menus/:id", menuController.getMenu);
 
 router.post("/menus", menuController.saveMenu);
 

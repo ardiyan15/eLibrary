@@ -15,6 +15,16 @@ exports.getMenus = async (req, res, next) => {
   });
 };
 
+exports.addMenu = (req, res, next) => {
+  let menu = [];
+
+  res.render("backoffice/menus/form", {
+    formTitle: "Add Menu",
+    menu,
+    buttonText: "Submit",
+  });
+};
+
 exports.getMenu = async (req, res, next) => {
   const { id } = req.params;
   const menuIdDecrypted = decrypt(id);
@@ -25,14 +35,6 @@ exports.getMenu = async (req, res, next) => {
     buttonText: "Update",
     menuIdEncrypted: id,
     menu,
-  });
-};
-
-exports.addMenu = (req, res, next) => {
-  res.render("backoffice/menus/form", {
-    formTitle: "Add Menu",
-    menu: "",
-    buttonText: "Submit",
   });
 };
 

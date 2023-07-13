@@ -7,11 +7,20 @@
     </div>
     <div class="card-body">
       <% action = ''; %> <% if(menu.id) { %> <% action =
-      `/backoffice/updatemenu/${menuIdEncrypted}` %> <% } else { %> <% action =
-      '/backoffice/menus'%> <% } %>
+      `/backoffice/updatesubmenus/${menuIdEncrypted}` %> <% } else { %> <%
+      action = '/backoffice/submenus'%> <% } %>
       <form action="<%= action %>" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" />
         <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="">Parent Menu</label>
+            <select name="" id="" class="form-control">
+              <option value="">-- Select Menu --</option>
+              <% menus.forEach(menu => { %>
+              <option value=""><%= menu.name %></option>
+              <% }) %>
+            </select>
+          </div>
           <div class="col-md-6 form-group">
             <label for="username">Name</label>
             <input
