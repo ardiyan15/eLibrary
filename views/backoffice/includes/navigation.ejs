@@ -23,7 +23,7 @@
   <div class="sidebar-heading">Administration</div>
   <li class="nav-item">
     <a
-      class="nav-link collapsed"
+      class="nav-link collapsed active"
       href="#"
       data-toggle="collapse"
       data-target="#collapseTwo"
@@ -35,7 +35,7 @@
     </a>
     <div
       id="collapseTwo"
-      class="collapse <%= isShow ? 'show' : '' %>"
+      class="collapse <%= parentMenu == 'master' ? 'show' : '' %>"
       aria-labelledby="headingTwo"
       data-parent="#accordionSidebar"
     >
@@ -43,7 +43,7 @@
         <h6 class="collapse-header">Master Data</h6>
         <a class="collapse-item" href="/backoffice/menus">Menu</a>
         <a
-          class="collapse-item <%= isShow ? 'active' : '' %>"
+          class="collapse-item <%= isActive == 'sub_menu' ? 'active' : '' %>"
           href="/backoffice/submenus"
           >Sub Menu</a
         >
