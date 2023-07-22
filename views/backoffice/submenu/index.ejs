@@ -24,7 +24,23 @@ include('../includes/navigation.ejs')%>
             <th class="text-center">Action</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <% let i = 1; %> <% subMenus.forEach(submenu => { %>
+          <tr>
+            <td class="text-center"><%= i++ %></td>
+            <td class="text-center"><%= submenu.menu.name %></td>
+            <td class="text-center"><%= submenu.name %></td>
+            <td class="text-center"><%= submenu.description %></td>
+            <td class="text-center"><%- submenu.status[0].status %></td>
+            <td class="text-center">
+              <form action="">
+                <a href="" class="btn btn-info btn-sm rounded">Edit</a>
+                <button class="btn-sm btn-danger rounded">Delete</button>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
       </table>
     </div>
   </div>

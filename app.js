@@ -44,6 +44,8 @@ const Rating = require("./models/frontoffice/rating");
 const User = require("./models/backoffice/users/user");
 const Transaction = require("./models/backoffice/transactions/transaction");
 const Transaction_detail = require("./models/backoffice/transaction_details/transaction_details");
+const Menu = require("./models/backoffice/menus/menu");
+const subMenu = require("./models/backoffice/sub_menus/sub_menus");
 
 app.use(
   session({
@@ -160,6 +162,14 @@ Book.hasMany(Transaction_detail, {
 
 User.hasMany(Transaction, {
   foreignKey: "created_by",
+});
+
+Menu.hasMany(subMenu, {
+  foreignKey: "menu_id",
+});
+
+subMenu.belongsTo(Menu, {
+  foreignKey: "menu_id",
 });
 
 sequelize

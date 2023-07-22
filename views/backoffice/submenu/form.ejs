@@ -14,10 +14,10 @@
         <div class="row">
           <div class="col-md-6 form-group">
             <label for="">Parent Menu</label>
-            <select name="" id="" class="form-control">
+            <select name="parent_menu" id="" class="form-control">
               <option value="">-- Select Menu --</option>
               <% menus.forEach(menu => { %>
-              <option value=""><%= menu.name %></option>
+              <option value="<%= menu.id %>"><%= menu.name %></option>
               <% }) %>
             </select>
           </div>
@@ -33,7 +33,7 @@
             />
           </div>
           <div class="col-md-6 form-group">
-            <label for="password">Description</label>
+            <label for="description">Description</label>
             <input
               type="text"
               name="description"
@@ -50,6 +50,17 @@
               id="icon"
               class="form-control"
               placeholder="Icon"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="email">Url</label>
+            <input
+              type="text"
+              name="url"
+              id="url"
+              class="form-control"
+              placeholder="Url"
               required
             />
           </div>

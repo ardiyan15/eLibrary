@@ -1,11 +1,22 @@
 const Menu = require("../../../models/backoffice/menus/menu");
-const subMenu = require("../../../models/sub_menus");
+const subMenu = require("../../../models/backoffice/sub_menus/sub_menus");
 
 exports.getSubMenus = async (req, res, next) => {
+  const subMenus = await subMenu.findAll({
+    include: [
+      {
+        model: Menu,
+        required: true,
+      },
+    ],
+    order: [["id", "DESC"]],
+  });
+
   res.render("backoffice/submenu/index", {
     flashMessage: "",
     isActive: "sub_menu",
     parentMenu: "master",
+    subMenus,
   });
 };
 
@@ -22,7 +33,18 @@ exports.getAddSubMenu = async (req, res, next) => {
 };
 
 exports.saveSubMenu = async (req, res, next) => {
-  const submenus = await subMenu.findAll();
-
-  res.send("ok");
+  const { parent_menu, name, description, icon, url } = req.body;
+  try {
+    subMenu.create({
+      menu_id: parent_menu,
+      name,
+      description,
+      icon,
+      url,
+    });
+    req.flash("success", "Successfully Add User");
+    res.redirect("/backoffice/submenus");
+  } catch (err) {
+    throw err;
+  }
 };

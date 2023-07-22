@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 
 const sequelize = require("../../../util/database");
+const subMenu = require("../sub_menus/sub_menus");
 
 const Menu = sequelize.define(
   "menu",
