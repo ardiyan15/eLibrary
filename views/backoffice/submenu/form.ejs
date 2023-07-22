@@ -6,19 +6,23 @@
       <h6 class="m-0 font-weight-bold text-primary"><%= formTitle %></h6>
     </div>
     <div class="card-body">
-      <% action = ''; %> <% if(menu.id) { %> <% action =
-      `/backoffice/updatesubmenus/${menuIdEncrypted}` %> <% } else { %> <%
+      <% action = ''; %> <% if(subMenu.id) { %> <% action =
+      `/backoffice/updatesubmenus/${subMenuIdEncrypted}` %> <% } else { %> <%
       action = '/backoffice/submenus'%> <% } %>
       <form action="<%= action %>" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" />
+        <input type="hidden" id="_csrf" name="_csrf" value="<%= csrfToken %>" />
         <div class="row">
           <div class="col-md-6 form-group">
             <label for="">Parent Menu</label>
             <select name="parent_menu" id="" class="form-control">
               <option value="">-- Select Menu --</option>
-              <% menus.forEach(menu => { %>
+              <% menus.forEach(menu => { %> <% if(menu.id == subMenu.menu_id) {
+              %>
+              <option selected value="<%= menu.id %>"><%= menu.name %></option>
+              <% } else { %>
               <option value="<%= menu.id %>"><%= menu.name %></option>
-              <% }) %>
+              <% } %> <% }) %>
             </select>
           </div>
           <div class="col-md-6 form-group">
@@ -30,6 +34,7 @@
               class="form-control"
               placeholder="Name"
               required
+              value="<%= subMenu.name ? subMenu.name : '' %>"
             />
           </div>
           <div class="col-md-6 form-group">
@@ -40,17 +45,7 @@
               id="description"
               class="form-control"
               placeholder="Description"
-            />
-          </div>
-          <div class="col-md-6 form-group">
-            <label for="email">Icon</label>
-            <input
-              type="text"
-              name="icon"
-              id="icon"
-              class="form-control"
-              placeholder="Icon"
-              required
+              value="<%= subMenu.description ? subMenu.description : '' %>"
             />
           </div>
           <div class="col-md-6 form-group">
@@ -62,10 +57,11 @@
               class="form-control"
               placeholder="Url"
               required
+              value="<%= subMenu.url ? subMenu.url : '' %>"
             />
           </div>
         </div>
-        <a href="/backoffice/menus" class="btn btn-secondary btn-sm rounded"
+        <a href="/backoffice/submenus" class="btn btn-secondary btn-sm rounded"
           >Back</a
         >
         <button type="submit" class="btn btn-primary btn-sm rounded">

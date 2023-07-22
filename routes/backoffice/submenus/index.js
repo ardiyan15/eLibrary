@@ -5,6 +5,8 @@ const subMenuController = require("../../../controllers/backoffice/submenus/inde
 
 router.get("/submenus", subMenuController.getSubMenus);
 
+router.get("/submenu/:id", subMenuController.getSubMenu);
+
 router.get("/submenus/form", subMenuController.getAddSubMenu);
 
 router.post("/submenus", subMenuController.saveSubMenu);
