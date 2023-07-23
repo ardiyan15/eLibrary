@@ -27,7 +27,6 @@ exports.getSubMenu = async (req, res, next) => {
   const idDecrypted = decrypt(id);
   const result = await subMenu.findByPk(idDecrypted);
   const menus = await Menu.findAll();
-
   const subMenuIdEncrypted = encrypt(result.id);
 
   res.render("backoffice/submenu/form", {
@@ -43,7 +42,6 @@ exports.getSubMenu = async (req, res, next) => {
 
 exports.getAddSubMenu = async (req, res, next) => {
   const menus = await Menu.findAll();
-  // console.log(req.csrfToken());
   res.render("backoffice/submenu/form", {
     formTitle: "Add Sub Menu",
     menus,
