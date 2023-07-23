@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       bookId: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",
@@ -18,7 +18,7 @@ module.exports = {
         },
       },
       userId: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",
