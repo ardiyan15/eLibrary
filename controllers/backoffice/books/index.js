@@ -32,6 +32,8 @@ exports.getBooks = (req, res, next) => {
         books,
         flashMessage,
         encrypt: encrypted.encrypt,
+        parentMenu: "master",
+        isActive: true,
       });
     })
     .catch((err) => console.log(err));
@@ -42,6 +44,8 @@ exports.getAddBook = (req, res, next) => {
     formTitle: "Add Book",
     buttonText: "Submit",
     book: [],
+    parentMenu: "master",
+    isActive: true,
   });
 };
 
@@ -100,6 +104,8 @@ exports.getBook = (req, res, next) => {
         buttonText: "Update",
         book,
         bookIdEncrypted,
+        parentMenu: "master",
+        isActive: true,
       });
     })
     .catch((err) => console.log(err));

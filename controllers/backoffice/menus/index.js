@@ -12,6 +12,8 @@ exports.getMenus = async (req, res, next) => {
     flashMessage,
     menus,
     encrypt,
+    parentMenu: "master",
+    isActive: true,
   });
 };
 
@@ -22,6 +24,8 @@ exports.addMenu = (req, res, next) => {
     formTitle: "Add Menu",
     menu,
     buttonText: "Submit",
+    parentMenu: "master",
+    isActive: true,
   });
 };
 
@@ -35,6 +39,8 @@ exports.getMenu = async (req, res, next) => {
     buttonText: "Update",
     menuIdEncrypted: id,
     menu,
+    parentMenu: "master",
+    isActive: true,
   });
 };
 
