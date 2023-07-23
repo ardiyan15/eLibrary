@@ -4,8 +4,8 @@ eLibrary is for organize books that i build using expressJs
 
 # How To Run Project
 
-=> Run npm install
-=> Create db with name e_library
-=> Run npx sequelize-cli db:migrate
-=> Run npx sequelize-cli db:seed:all
-=> Run npm start
+1. Run npm install
+2. Create db with name e_library
+3. Run npx sequelize-cli db:migrate
+4. Run npx sequelize-cli db:seed:all
+5. Run npm start
