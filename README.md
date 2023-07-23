@@ -9,3 +9,4 @@ eLibrary is for organize books that i build using expressJs
 3. Run npx sequelize-cli db:migrate
 4. Run npx sequelize-cli db:seed:all
 5. Run npm start
+6. Project running at http://localhost:3000/backoffice
