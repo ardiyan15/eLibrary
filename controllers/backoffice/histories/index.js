@@ -28,6 +28,8 @@ exports.getHistory = async (req, res, next) => {
     flashMessage: "",
     transactions,
     label,
+    parentMenu: "",
+    isActive: false,
   });
 };
 
@@ -35,7 +37,7 @@ exports.getDetail = async (req, res, next) => {
   let { id } = req.params;
   let transactions = await Transaction.findAll({
     where: {
-        id
+      id,
     },
     attributes: ["*"],
     raw: true,
@@ -55,5 +57,7 @@ exports.getDetail = async (req, res, next) => {
 
   res.render("backoffice/histories/detail", {
     transactions,
+    parentMenu: "",
+    isActive: false,
   });
 };

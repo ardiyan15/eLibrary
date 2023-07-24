@@ -22,6 +22,42 @@
   <hr class="sidebar-divider" />
   <div class="sidebar-heading">Administration</div>
   <li class="nav-item">
+      <% menus.forEach(menu => {  %>
+      <a
+        class="nav-link collapsed active"
+        href="#"
+        data-toggle="collapse"
+        data-target="#collapseTwo"
+        aria-expanded="true"
+        aria-controls="collapseTwo"
+      >
+        <i class="fas fa-fw fa-cog"></i>
+        <span><%= menu.name %></span>
+      </a>
+      <div
+        id="collapseTwo"
+        class="collapse <%= parentMenu == 'master' ? 'show' : '' %>"
+        aria-labelledby="headingTwo"
+        data-parent="#accordionSidebar"
+      >
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header"><%= menu.name %></h6>
+          <% subMenus.forEach(subMenu => { %>
+          <a class="collapse-item" href="<%= subMenu.url %>"><%= subMenu.name %></a>
+          <% }) %>
+          <!-- <a
+            class="collapse-item <%= isActive == 'sub_menu' ? 'active' : '' %>"
+            href="/backoffice/submenus"
+            >Sub Menu</a
+          >
+          <a class="collapse-item" href="/backoffice/users">Users</a>
+          <a class="collapse-item" href="/backoffice/Books">Books</a>
+          <a class="collapse-item" href="/backoffice/categories">Categories</a> -->
+        </div>
+      </div>
+      <% }) %>
+    </li>
+  <!-- <li class="nav-item">
     <a
       class="nav-link collapsed active"
       href="#"
@@ -53,6 +89,7 @@
       </div>
     </div>
   </li>
+  
   <li class="nav-item">
     <a
       class="nav-link collapsed"
@@ -101,10 +138,11 @@
         <a href="/backoffice/histories" class="collapse-item">History</a>
       </div>
     </div>
-  </li>
+  </li> -->
   <hr class="sidebar-divider" />
   <li class="nav-item">
     <form action="/backoffice/logout" method="POST">
+      <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
       <button
         class="btn btn-link"
         style="text-decoration: none; color: rgba(255, 255, 255, 0.8)"

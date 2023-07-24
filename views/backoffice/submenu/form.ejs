@@ -9,8 +9,7 @@
       <% action = ''; %> <% if(subMenu.id) { %> <% action =
       `/backoffice/updatesubmenus/${subMenuIdEncrypted}` %> <% } else { %> <%
       action = '/backoffice/submenus'%> <% } %>
-      <form action="<%= action %>" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="id" />
+      <form action="<%= action %>" method="POST">
         <input type="hidden" id="_csrf" name="_csrf" value="<%= csrfToken %>" />
         <div class="row">
           <div class="col-md-6 form-group">

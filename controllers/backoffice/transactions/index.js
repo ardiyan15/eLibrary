@@ -16,6 +16,8 @@ exports.getTransactions = async (req, res, next) => {
   res.render("backoffice/transactions/index", {
     flashMessage,
     results,
+    parentMenu: "",
+    isActive: false,
   });
 };
 
@@ -54,5 +56,7 @@ exports.getTransaction = async (req, res, next) => {
 
   res.render("backoffice/transactions/detail", {
     transaction,
+    parentMenu: "",
+    isActive: false,
   });
 };

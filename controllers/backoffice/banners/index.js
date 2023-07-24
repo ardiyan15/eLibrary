@@ -14,6 +14,8 @@ exports.getBanners = async (req, res, next) => {
       encrypt: encrypted.encrypt,
       flashMessage,
       moment,
+      parentMenu: "",
+      isActive: false,
     });
   } catch (e) {
     console.log(e);
@@ -25,6 +27,8 @@ exports.getForm = async (req, res, next) => {
     res.render("backoffice/banners/form", {
       formTitle: "Add Banner",
       banner: [],
+      parentMenu: "",
+      isActive: false,
     });
   } catch (e) {
     console.log(e);

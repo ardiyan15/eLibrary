@@ -11,4 +11,6 @@ router.get("/submenus/form", subMenuController.getAddSubMenu);
 
 router.post("/submenus", subMenuController.saveSubMenu);
 
+router.post('/updatesubmenus/:id', subMenuController.updateSubMenu);
+
 module.exports = { router };

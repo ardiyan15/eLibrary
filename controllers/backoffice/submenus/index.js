@@ -69,3 +69,23 @@ exports.saveSubMenu = async (req, res, next) => {
     throw err;
   }
 };
+
+exports.updateSubMenu = async (req, res, next) => {
+  const { parent_menu, name, description, url } = req.body;
+  const { id } = req.params;
+
+  let subMenuIdDecrypted = decrypt(id);
+
+  const SubMenu = await subMenu.findByPk(subMenuIdDecrypted);
+  try {
+    SubMenu.menu_id = parent_menu;
+    SubMenu.name = name;
+    SubMenu.description = description;
+    SubMenu.url = url;
+    SubMenu.save();
+    req.flash("success", "Successfully update user");
+    res.redirect("/backoffice/submenus");
+  } catch (err) {
+    throw err;
+  }
+};

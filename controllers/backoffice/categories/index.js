@@ -14,6 +14,8 @@ exports.getCategories = (req, res, next) => {
         encrypt: encrypted.encrypt,
         flashMessage,
         moment,
+        parentMenu: "",
+        isActive: false,
       });
     })
     .catch((err) => console.log(err));
@@ -25,6 +27,8 @@ exports.addCategory = (req, res, next) => {
     category: "",
     buttonText: "Submit",
     errors: "",
+    parentMenu: "",
+    isActive: false,
   });
 };
 
@@ -74,6 +78,8 @@ exports.getCategory = async (req, res, next) => {
     buttonText: "Submit",
     category,
     categoryIdEncrypted,
+    parentMenu: "",
+    isActive: false,
   });
 };
 

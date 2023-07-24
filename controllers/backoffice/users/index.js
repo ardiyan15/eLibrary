@@ -1,9 +1,24 @@
 const bcrypt = require("bcryptjs");
 const encrypted = require("../../../util/encrypted");
 const User = require("../../../models/backoffice/users/user");
+const Menu = require("../../../models/backoffice/menus/menu");
+const SubMenu = require("../../../models/backoffice/sub_menus/sub_menus");
+const Redis = require("../../../util/redis");
 
-exports.getUsers = (req, res, next) => {
+
+exports.getUsers = async (req, res, next) => {
   const flashMessage = req.flash("success");
+
+  // const menus = await Menu.findAll({
+  //   raw: true,
+  //   order: [["id", "DESC"]],
+  // });
+
+  console.log(req)
+
+  const menus = JSON.parse(await Redis("menus"));
+  const subMenus = JSON.parse(await Redis('sub_menus'))
+
   User.findAll({
     order: [["id", "DESC"]],
   })
@@ -12,6 +27,11 @@ exports.getUsers = (req, res, next) => {
         users,
         encrypt: encrypted.encrypt,
         flashMessage,
+        parentMenu: "master",
+        isActive: true,
+        menus,
+    subMenus,
+    csrfToken: req.csrfToken(),
       });
     })
     .catch((err) => console.log(err));

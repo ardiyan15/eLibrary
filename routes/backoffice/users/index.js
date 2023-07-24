@@ -4,7 +4,8 @@ const router = express.Router();
 const userController = require("../../../controllers/backoffice/users/index");
 const isAuth = require("../../../middleware/is-auth");
 
-router.get("/users", isAuth, userController.getUsers);
+// router.get("/users", isAuth, userController.getUsers);
+router.get("/users", userController.getUsers);
 
 router.get("/users/form", isAuth, userController.getAddUser);
 
