@@ -25,7 +25,7 @@ include('../includes/navigation.ejs')%>
           </tr>
         </thead>
         <tbody>
-          <% let i = 1; %> <% subMenus.forEach(submenu => { %>
+          <% let i = 1; %> <% results.forEach(submenu => { %>
           <tr>
             <td class="text-center"><%= i++ %></td>
             <td class="text-center"><%= submenu.menu.name %></td>
@@ -34,7 +34,11 @@ include('../includes/navigation.ejs')%>
             <td class="text-center"><%- submenu.status[0].status %></td>
             <td class="text-center">
               <form action="">
-                <a href="/backoffice/submenu/<%= encrypt(submenu.id) %>" class="btn btn-info btn-sm rounded">Edit</a>
+                <a
+                  href="/backoffice/submenu/<%= encrypt(submenu.id) %>"
+                  class="btn btn-info btn-sm rounded"
+                  >Edit</a
+                >
                 <button class="btn-sm btn-danger rounded">Delete</button>
               </form>
             </td>

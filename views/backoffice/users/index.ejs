@@ -26,7 +26,7 @@ include('../includes/navigation.ejs')%>
           <% let i = 1; %> <% users.forEach(user => { %>
           <tr>
             <td class="text-center"><%= i++ %></td>
-            <td class="text-center"><%= user.username %></td>
+            <td class="text-center"><%- user.username %></td>
             <td class="text-center"><%= user.roles %></td>
             <td class="text-center"><%= user.email %></td>
             <td class="text-center">

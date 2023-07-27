@@ -1,6 +1,6 @@
 const { createClient } = require("redis");
 
-module.exports = async (key, value = "") => {
+module.exports = async (key, value = "", type = "get") => {
   const client = createClient();
 
   client.on("error", (err) => {
@@ -9,8 +9,7 @@ module.exports = async (key, value = "") => {
   });
 
   await client.connect();
-  const isExist = await client.exists(key);
-  if (isExist !== 1) {
+  if (type === "set") {
     await client.set(key, value);
   }
   const result = await client.get(key);

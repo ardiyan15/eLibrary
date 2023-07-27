@@ -1,13 +1,15 @@
 const Menu = require("../../../models/backoffice/menus/menu");
 const subMenu = require("../../../models/backoffice/sub_menus/sub_menus");
 const { encrypt, decrypt } = require("../../../util/encrypted");
+const globalQuery = require("../../../util/globalQuery");
+const Redis = require("../../../util/redis");
 
 exports.getSubMenus = async (req, res, next) => {
-  const subMenus = await subMenu.findAll({
+  const results = await subMenu.findAll({
+    nest: true,
     include: [
       {
         model: Menu,
-        required: true,
       },
     ],
     order: [["id", "DESC"]],
@@ -16,8 +18,9 @@ exports.getSubMenus = async (req, res, next) => {
   res.render("backoffice/submenu/index", {
     flashMessage: "",
     isActive: "sub_menu",
-    parentMenu: "master",
-    subMenus,
+    parentMenu: "master_data",
+    subMenuName: "sub_menu",
+    results,
     encrypt,
   });
 };
@@ -47,9 +50,9 @@ exports.getAddSubMenu = async (req, res, next) => {
     menus,
     subMenu: "",
     buttonText: "Submit",
-    parentMenu: "master",
+    parentMenu: "master_data",
+    subMenuName: "menu",
     isActive: "sub_menu",
-    csrfToken: req.csrfToken(),
   });
 };
 
@@ -83,6 +86,10 @@ exports.updateSubMenu = async (req, res, next) => {
     SubMenu.description = description;
     SubMenu.url = url;
     SubMenu.save();
+    // let menus = await globalQuery(Menu, "findAll", { status: 1 });
+    let subMenus = await globalQuery(subMenu, "findAll", { status: 1 });
+    // await Redis("menus", JSON.stringify(menus), "set");
+    await Redis("sub_menus", JSON.stringify(subMenus), "set");
     req.flash("success", "Successfully update user");
     res.redirect("/backoffice/submenus");
   } catch (err) {

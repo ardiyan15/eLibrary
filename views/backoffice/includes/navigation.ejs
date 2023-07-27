@@ -13,7 +13,7 @@
     <div class="sidebar-brand-text mx-3">eLibrary</div>
   </a>
   <hr class="sidebar-divider my-0" />
-  <li class="nav-item active">
+  <li class="nav-item">
     <a class="nav-link" href="index.html">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a
@@ -21,31 +21,38 @@
   </li>
   <hr class="sidebar-divider" />
   <div class="sidebar-heading">Administration</div>
-  <li class="nav-item">
-      <% menus.forEach(menu => {  %>
-      <a
-        class="nav-link collapsed active"
-        href="#"
-        data-toggle="collapse"
-        data-target="#collapseTwo"
-        aria-expanded="true"
-        aria-controls="collapseTwo"
-      >
-        <i class="fas fa-fw fa-cog"></i>
-        <span><%= menu.name %></span>
-      </a>
-      <div
-        id="collapseTwo"
-        class="collapse <%= parentMenu == 'master' ? 'show' : '' %>"
-        aria-labelledby="headingTwo"
-        data-parent="#accordionSidebar"
-      >
-        <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header"><%= menu.name %></h6>
-          <% subMenus.forEach(subMenu => { %>
-          <a class="collapse-item" href="<%= subMenu.url %>"><%= subMenu.name %></a>
-          <% }) %>
-          <!-- <a
+  <% menus.forEach(menu => { %>
+  <li
+    class="nav-item <%= menu.name.split(' ').join('_').toLowerCase() == parentMenu.toLowerCase() ? 'active' : '' %>"
+  >
+    <a
+      class="nav-link collapsed active"
+      href="#"
+      data-toggle="collapse"
+      data-target="#<%= menu.name.split(' ').join('_') %>"
+      aria-expanded="true"
+      aria-controls="<%= menu.name.split(' ').join('_') %>"
+    >
+      <i class="<%= menu.icon %>"></i>
+      <span><%= menu.name %></span>
+    </a>
+    <div
+      id="<%= menu.name.split(' ').join('_') %>"
+      class="collapse <%= parentMenu.toLowerCase() == menu.name.split(' ').join('_').toLowerCase() ? 'show' : '' %>"
+      aria-labelledby="headingTwo"
+      data-parent="#accordionSidebar"
+    >
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header"><%= menu.name %></h6>
+        <% subMenus.forEach(subMenu => { %> <% if(menu.id == subMenu.menu_id) {
+        %>
+        <a
+          class="collapse-item <%= subMenu.name.split(' ').join('_').toLowerCase() == subMenuName.toLowerCase() ? 'active' : '' %>"
+          href="<%= subMenu.url %>"
+          ><%= subMenu.name %></a
+        >
+        <% } %> <% }) %>
+        <!-- <a
             class="collapse-item <%= isActive == 'sub_menu' ? 'active' : '' %>"
             href="/backoffice/submenus"
             >Sub Menu</a
@@ -53,10 +60,10 @@
           <a class="collapse-item" href="/backoffice/users">Users</a>
           <a class="collapse-item" href="/backoffice/Books">Books</a>
           <a class="collapse-item" href="/backoffice/categories">Categories</a> -->
-        </div>
       </div>
-      <% }) %>
-    </li>
+    </div>
+  </li>
+  <% }) %>
   <!-- <li class="nav-item">
     <a
       class="nav-link collapsed active"
@@ -142,7 +149,7 @@
   <hr class="sidebar-divider" />
   <li class="nav-item">
     <form action="/backoffice/logout" method="POST">
-      <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>" />
       <button
         class="btn btn-link"
         style="text-decoration: none; color: rgba(255, 255, 255, 0.8)"

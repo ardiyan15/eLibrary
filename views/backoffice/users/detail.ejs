@@ -1,0 +1,62 @@
+<%- include('../includes/head.ejs') %> <%- include('../includes/navigation.ejs')
+%>
+<div class="container-fluid">
+  <div class="card shadow">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Master User</h6>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <table>
+            <tr>
+              <td width="100">Username</td>
+              <td width="20">:</td>
+              <td>Ardiyan</td>
+            </tr>
+            <tr>
+              <td width="100">Role</td>
+              <td width="20">:</td>
+              <td>Admin</td>
+            </tr>
+            <tr>
+              <td width="100">User</td>
+              <td width="20">:</td>
+              <td>user@email.com</td>
+            </tr>
+            <tr>
+              <td width="100">Image</td>
+              <td width="20">:</td>
+              <td>
+                <img
+                  src="/images/users/2023-04-01T19-13-04.975Z-random_image.jpeg"
+                  alt=""
+                  width="150"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-6 text-right">
+          <a href="/backoffice/users/" class="btn btn-info btn-sm rounded"
+            >Edit</a
+          >
+        </div>
+      </div>
+      <table class="table table-bordered dataTable">
+        <thead>
+          <tr>
+            <th class="text-center">No</th>
+            <th class="text-center">Menu</th>
+            <th class="text-center">Read</th>
+            <th class="text-center">Create</th>
+            <th class="text-center">Update</th>
+            <th class="text-center">Delete</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<%- include('../includes/end.ejs') %>

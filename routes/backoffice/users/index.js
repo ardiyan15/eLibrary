@@ -7,9 +7,11 @@ const isAuth = require("../../../middleware/is-auth");
 // router.get("/users", isAuth, userController.getUsers);
 router.get("/users", userController.getUsers);
 
-router.get("/users/form", isAuth, userController.getAddUser);
+router.get("/users/form", userController.getAddUser);
 
 router.get("/users/:id", isAuth, userController.getUser);
+
+router.get("/users/detail/:id", userController.getDetailUser);
 
 router.post("/users", isAuth, userController.saveUser);
 

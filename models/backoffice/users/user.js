@@ -1,3 +1,5 @@
+const { encrypt } = require("../../../util/encrypted");
+
 const Sequelize = require("sequelize");
 
 const sequelize = require("../../../util/database");
@@ -9,7 +11,16 @@ const User = sequelize.define("user", {
     allowNull: false,
     primaryKey: true,
   },
-  username: Sequelize.STRING(60),
+  username: {
+    type: Sequelize.STRING(60),
+    get() {
+      const rawUsername = this.getDataValue("username");
+      const rawId = this.getDataValue("id");
+      return `<a href="/backoffice/users/detail/${encrypt(
+        rawId
+      )}">${rawUsername}</a>`;
+    },
+  },
   password: Sequelize.STRING(128),
   roles: Sequelize.STRING(30),
   email: Sequelize.STRING(30),

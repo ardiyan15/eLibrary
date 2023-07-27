@@ -14,7 +14,7 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 const isAuth = require("./middleware/is-auth");
-const Redis = require('./util/redis')
+const Redis = require("./util/redis");
 
 // Backooffice Routes
 const homeRoutes = require("./routes/backoffice/home/home");
@@ -125,11 +125,21 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-  res.locals.csrfToken = req.csrfToken()
-  res.locals.menus = JSON.parse(await Redis('menus'))
-  res.locals.subMenus = JSON.parse(await Redis('sub_menus'))
-  next()
-})
+  let menus = await Menu.findAll({
+    where: [{ status: 1 }],
+  });
+
+  let subMenus = await subMenu.findAll({
+    where: [{ status: 1 }],
+  });
+
+  res.locals.menus = menus;
+  res.locals.subMenus = subMenus;
+  res.locals.parentMenu = "";
+  res.locals.subMenuName = "";
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 
 // backoffice
 app.use("/backoffice", homeRoutes.router);

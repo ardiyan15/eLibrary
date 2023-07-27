@@ -1,64 +1,88 @@
-const bcrypt = require("bcryptjs");
-const encrypted = require("../../../util/encrypted");
 const User = require("../../../models/backoffice/users/user");
 const Menu = require("../../../models/backoffice/menus/menu");
 const SubMenu = require("../../../models/backoffice/sub_menus/sub_menus");
-const Redis = require("../../../util/redis");
 
+const bcrypt = require("bcryptjs");
+const encrypted = require("../../../util/encrypted");
 
 exports.getUsers = async (req, res, next) => {
   const flashMessage = req.flash("success");
 
-  // const menus = await Menu.findAll({
-  //   raw: true,
-  //   order: [["id", "DESC"]],
-  // });
-
-  console.log(req)
-
-  const menus = JSON.parse(await Redis("menus"));
-  const subMenus = JSON.parse(await Redis('sub_menus'))
-
-  User.findAll({
+  let users = await User.findAll({
     order: [["id", "DESC"]],
-  })
-    .then((users) => {
-      res.render("backoffice/users/index", {
-        users,
-        encrypt: encrypted.encrypt,
-        flashMessage,
-        parentMenu: "master",
-        isActive: true,
-        menus,
-    subMenus,
-    csrfToken: req.csrfToken(),
-      });
-    })
-    .catch((err) => console.log(err));
+  });
+
+  res.render("backoffice/users/index", {
+    users,
+    encrypt: encrypted.encrypt,
+    flashMessage,
+    parentMenu: "master_data",
+    subMenuName: "users",
+    isActive: true,
+  });
 };
 
-exports.getAddUser = (req, res, next) => {
+exports.getAddUser = async (req, res, next) => {
+  const menuData = await Menu.findAll({
+    // raw: true,
+    nest: true,
+    include: [
+      {
+        required: true,
+        all: true,
+        nested: true,
+        model: SubMenu,
+      },
+    ],
+  });
+
   res.render("backoffice/users/form", {
     formTitle: "Add User",
     buttonText: "Submit",
+    parentMenu: "master_data",
+    subMenuName: "users",
+    isActive: true,
     user: [],
+    menuData,
   });
 };
 
 exports.getUser = (req, res, next) => {
   const userId = encrypted.decrypt(req.params.id, req.params.id);
 
-  User.findByPk(userId)
+  User.findByPk(userId, {
+    raw: true,
+  })
     .then((user) => {
       let userIdEncrypted = encrypted.encrypt(userId);
       res.render("backoffice/users/form", {
         formTitle: "Edit User",
         buttonText: "Update",
+        parentMenu: "master_data",
+        subMenuName: "users",
         user,
         userIdEncrypted,
+        isActive: true,
       });
     })
     .catch((err) => console.log(err));
+};
+
+exports.getDetailUser = async (req, res, next) => {
+  const { id } = req.params;
+
+  const userIdDecrypted = encrypted.decrypt(id);
+
+  const user = await User.findByPk(userIdDecrypted, {
+    raw: true,
+  });
+
+  res.render("backoffice/users/detail", {
+    user,
+    isActive: true,
+    parentMenu: "master_data",
+    subMenuName: "users",
+  });
 };
 
 exports.saveUser = async (req, res, next) => {
@@ -84,24 +108,26 @@ exports.saveUser = async (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.updateUser = (req, res, next) => {
+exports.updateUser = async (req, res, next) => {
   const { id, username, password, roles, email } = req.body;
 
   let userDecrypted = encrypted.decrypt(id);
+  let user = await User.findByPk(userDecrypted);
 
-  User.findByPk(userDecrypted)
-    .then((user) => {
-      user.username = username;
-      if (password) {
-        user.password = password;
-      }
-      user.roles = roles;
-      user.email = email;
-      user.save();
-      req.flash("success", "Successfully update user");
-      res.redirect("/backoffice/users");
-    })
-    .catch((err) => console.log(err));
+  try {
+    user.username = username;
+    if (password) {
+      user.password = password;
+    }
+    user.roles = roles;
+    user.email = email;
+    user.save();
+
+    req.flash("success", "Successfully update user");
+    res.redirect("/backoffice/users");
+  } catch (err) {
+    throw err;
+  }
 };
 
 exports.deleteUser = (req, res, next) => {

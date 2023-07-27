@@ -64,6 +64,45 @@
             <input type="file" name="image" id="image">
           </div>
         </div>
+        <table class="table table-bordered dataTable">
+          <thead>
+            <tr>
+              <th class="text-center">No</th>
+              <th class="text-center">Menu</th>
+              <th class="text-center">Read</th>
+              <th class="text-center">Create</th>
+              <th class="text-center">Update</th>
+              <th class="text-center">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% let i = 1; %> <% menuData.forEach(menu => { %>
+            <tr>
+              <td class="text-center"><%= i++ %></td>
+              <td class="text-center" style="border-right: 0px;"><%= menu.name %></td>
+              <td colspan="4"></td>
+              <% menu.sub_menus.forEach(subMenu => { %>
+                <tr>
+                  <td></td>
+                  <td class="text-center"><%= subMenu.name %></td>
+                  <td class="text-center">
+                    <input type="checkbox" name="<%= `${subMenu.name}_is_read` %>" value="1"/>
+                  </td>
+                  <td class="text-center">
+                    <input type="checkbox" name="<%= `${subMenu.name}_is_create` %>" value="1"/>
+                  </td>
+                  <td class="text-center">
+                    <input type="checkbox" name="<%= `${subMenu.name}_is_update` %>" value="1"/>
+                  </td>
+                  <td class="text-center">
+                    <input type="checkbox" name="<%= `${subMenu.name}_is_delete` %>" value="1"/>
+                  </td>
+                </tr>
+              <% }) %>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
         <a href="/backoffice/users" class="btn btn-secondary btn-sm rounded"
           >Back</a
         >
@@ -72,3 +111,5 @@
     </div>
   </div>
 </div>
+
+<%- include('../includes/end.ejs') %>
