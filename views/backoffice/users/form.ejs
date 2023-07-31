@@ -13,6 +13,7 @@
         <% action = '/backoffice/users'%>
         <% } %>
       <form action="<%= action %>" method="POST" enctype="multipart/form-data">
+        <input type="hidden" id="_csrf" name="_csrf" value="<%= csrfToken %>">
         <input type="hidden" name="destination" value="users">
         <input type="hidden" name="id" value="<%= user.id ? userIdEncrypted : '' %>">
         <div class="row">
