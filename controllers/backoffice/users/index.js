@@ -86,6 +86,8 @@ exports.getDetailUser = async (req, res, next) => {
 };
 
 exports.saveUser = async (req, res, next) => {
+  console.log(req.body);
+  return;
   const { username, password, roles, email } = req.body;
 
   const passwordHashed = await bcrypt.hash(password, 12);
@@ -94,18 +96,24 @@ exports.saveUser = async (req, res, next) => {
 
   const imageUrl = image.path;
 
-  User.create({
-    username,
-    password: passwordHashed,
-    roles,
-    email,
-    image: imageUrl,
-  })
-    .then((result) => {
-      req.flash("success", "Successfully Add User");
-      res.redirect("/backoffice/users");
-    })
-    .catch((err) => console.log(err));
+  try {
+    await User.create({
+      username,
+      password: passwordHashed,
+      roles,
+      email,
+      image: imageUrl,
+    });
+
+    // UserPrivilege.create({
+    //   sub_menu_id: '1',
+      
+    // })
+    req.flash("success", "Successfully Add User");
+    res.redirect("/backoffice/users");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.updateUser = async (req, res, next) => {

@@ -5,6 +5,8 @@ const flash = require("connect-flash");
 const express = require("express");
 const multer = require("multer");
 const csrf = require("csurf");
+const morgan = require("morgan");
+const swaggerUi = require("swagger-ui-express");
 
 const app = express();
 
@@ -47,6 +49,8 @@ const Transaction = require("./models/backoffice/transactions/transaction");
 const Transaction_detail = require("./models/backoffice/transaction_details/transaction_details");
 const Menu = require("./models/backoffice/menus/menu");
 const subMenu = require("./models/backoffice/sub_menus/sub_menus");
+
+app.use(morgan("dev"));
 
 app.use(
   session({
@@ -101,6 +105,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/public", express.static(path.join(__dirname, "public")));
 
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use("/api/v1", test.router);
 
 // frontoffice
