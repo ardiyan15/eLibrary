@@ -6,6 +6,7 @@ const express = require("express");
 const multer = require("multer");
 const csrf = require("csurf");
 const morgan = require("morgan");
+const passport = require("passport");
 const swaggerUi = require("swagger-ui-express");
 
 const app = express();
@@ -59,6 +60,9 @@ app.use(
     resave: true,
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {

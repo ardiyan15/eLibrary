@@ -68,35 +68,23 @@
         <table class="table table-bordered dataTable">
           <thead>
             <tr>
-              <th class="text-center">No</th>
-              <th class="text-center">Menu</th>
-              <th class="text-center">Read</th>
-              <th class="text-center">Create</th>
-              <th class="text-center">Update</th>
-              <th class="text-center">Delete</th>
+              <th class="text-center" width="50">No</th>
+              <th class="text-center" colspan="5">Menu</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
           <% let i = 1; %> <% menuData.forEach(menu => { %>
             <tr>
               <td class="text-center"><%= i++ %></td>
-              <td class="text-center" style="border-right: 0px;"><%= menu.name %></td>
-              <td colspan="4"></td>
+              <td class="text-center" colspan="5"><%= menu.name %></td>
+              <td></td>
               <% menu.sub_menus.forEach(subMenu => { %>
                 <tr>
                   <td></td>
-                  <td class="text-center"><%= subMenu.name %></td>
+                  <td class="text-center" colspan="5"><%= subMenu.name %></td>
                   <td class="text-center">
                     <input type="checkbox" name="<%= `${subMenu.name}_is_read` %>" value="{is_read: 1, is_update: 1}"/>
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="<%= `${subMenu.name}_is_create` %>" value="1"/>
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="<%= `${subMenu.name}_is_update` %>" value="1"/>
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="<%= `${subMenu.name}_is_delete` %>" value="1"/>
                   </td>
                 </tr>
               <% }) %>
