@@ -7,6 +7,27 @@ const bcrypt = require("bcryptjs");
 const encrypted = require("../../../util/encrypted");
 const sequelize = require("../../../util/database");
 
+const getMenuData = async () => {
+  return await Menu.findAll({
+    nest: true,
+    include: [
+      {
+        required: true,
+        all: true,
+        nested: true,
+        model: SubMenu,
+        include: [
+          {
+            model: UserPrivilege,
+            required: true,
+          },
+        ],
+      },
+    ],
+    where: [{ status: 1 }],
+  });
+};
+
 exports.getUsers = async (req, res, next) => {
   const flashMessage = req.flash("success");
 
@@ -25,17 +46,7 @@ exports.getUsers = async (req, res, next) => {
 };
 
 exports.getAddUser = async (req, res, next) => {
-  const menuData = await Menu.findAll({
-    nest: true,
-    include: [
-      {
-        required: true,
-        all: true,
-        nested: true,
-        model: SubMenu,
-      },
-    ],
-  });
+  const menuData = getMenuData();
 
   res.render("backoffice/users/form", {
     formTitle: "Add User",
@@ -48,25 +59,36 @@ exports.getAddUser = async (req, res, next) => {
   });
 };
 
-exports.getUser = (req, res, next) => {
+exports.getUser = async (req, res, next) => {
   const userId = encrypted.decrypt(req.params.id, req.params.id);
-
-  User.findByPk(userId, {
+  const menuData = await getMenuData();
+  const userPrivilage = await UserPrivilege.findAll({
+    attributes: ["subMenuId"],
     raw: true,
-  })
-    .then((user) => {
-      let userIdEncrypted = encrypted.encrypt(userId);
-      res.render("backoffice/users/form", {
-        formTitle: "Edit User",
-        buttonText: "Update",
-        parentMenu: "master_data",
-        subMenuName: "users",
-        user,
-        userIdEncrypted,
-        isActive: true,
-      });
-    })
-    .catch((err) => console.log(err));
+    where: {
+      userId,
+    },
+  });
+
+  const user = await User.findByPk(userId, {
+    raw: true,
+  });
+
+  let userIdEncrypted = encrypted.encrypt(userId);
+
+  const objectToView = {
+    formTitle: "Edit User",
+    buttonText: "Update",
+    parentMenu: "master_data",
+    subMenuName: "users",
+    userIdEncrypted,
+    isActive: true,
+    menuData,
+    userPrivilage,
+    user,
+  };
+
+  res.render("backoffice/users/form", objectToView);
 };
 
 exports.getDetailUser = async (req, res, next) => {
@@ -92,10 +114,6 @@ exports.saveUser = async (req, res, next) => {
   const { username, password, roles, email } = req.body;
   const passwordHashed = await bcrypt.hash(password, 12);
   const image = req.file;
-
-  // console.log(image.path);
-
-  // return;
 
   const imageUrl = image.path;
 
@@ -183,19 +201,41 @@ exports.updateUser = async (req, res, next) => {
 
   let userDecrypted = encrypted.decrypt(id);
   let user = await User.findByPk(userDecrypted);
+  const dbTransaction = await sequelize.transaction();
+  // await UserPrivilege.destroy({
+  //   where: {
+  //     userId: user.id,
+  //   },
+  // });
 
   try {
-    user.username = username;
-    if (password) {
-      user.password = password;
-    }
-    user.roles = roles;
-    user.email = email;
-    user.save();
+    // user.username = username;
+    // if (password) {
+    //   user.password = password;
+    // }
+    // user.roles = roles;
+    // user.email = email;
+    // user.save();
+
+    user.update(
+      {
+        username,
+        roles,
+        email,
+      },
+      {
+        where: {
+          id: 1,
+        },
+      }
+    );
+
+    dbTransaction.commit();
 
     req.flash("success", "Successfully update user");
     res.redirect("/backoffice/users");
   } catch (err) {
+    dbTransaction.rollback();
     throw err;
   }
 };

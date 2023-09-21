@@ -9,13 +9,13 @@ router.get("/users", userController.getUsers);
 
 router.get("/users/form", userController.getAddUser);
 
-router.get("/users/:id", isAuth, userController.getUser);
+router.get("/users/:id", userController.getUser);
 
 router.get("/users/detail/:id", userController.getDetailUser);
 
 router.post("/users", userController.saveUser);
 
-router.post("/updateuser/:id", isAuth, userController.updateUser);
+router.post("/updateuser/:id", userController.updateUser);
 
 router.post("/userdelete/", isAuth, userController.deleteUser);
 

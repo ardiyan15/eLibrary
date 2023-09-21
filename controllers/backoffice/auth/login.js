@@ -55,24 +55,24 @@ exports.postLogin = async (req, res, next) => {
     const checkPassword = await bcrypt.compare(password, user.password);
     if (checkPassword) {
       delete user.password;
-      let passportResult = await passport.authenticate("local", {
-        failureRedirect: "/backoffice",
-      });
+      // let passportResult = await passport.authenticate("local", {
+      //   failureRedirect: "/backoffice",
+      // });
       req.session.isLoggedIn = true;
       req.session.backOffice = user;
-      const menus = await Menu.findAll({
-        raw: true,
-        order: [["id", "DESC"]],
-      });
+      // const menus = await Menu.findAll({
+      //   raw: true,
+      //   order: [["id", "DESC"]],
+      // });
 
-      await Redis("menus", JSON.stringify(menus));
+      // await Redis("menus", JSON.stringify(menus));
 
-      const subMenus = await SubMenu.findAll({
-        raw: true,
-        order: [["id", "DESC"]],
-      });
+      // const subMenus = await SubMenu.findAll({
+      //   raw: true,
+      //   order: [["id", "DESC"]],
+      // });
 
-      await Redis("sub_menus", JSON.stringify(subMenus));
+      // await Redis("sub_menus", JSON.stringify(subMenus));
 
       res.redirect("/backoffice/home");
     } else {

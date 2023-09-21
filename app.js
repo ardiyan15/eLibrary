@@ -52,7 +52,7 @@ const Menu = require("./models/backoffice/menus/menu");
 const subMenu = require("./models/backoffice/sub_menus/sub_menus");
 const userPrivilage = require("./models/backoffice/userPrivilege/userPrivilege");
 
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 
 app.use(
   session({
