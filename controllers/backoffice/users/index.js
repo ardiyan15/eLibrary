@@ -1,9 +1,11 @@
 const User = require("../../../models/backoffice/users/user");
 const Menu = require("../../../models/backoffice/menus/menu");
 const SubMenu = require("../../../models/backoffice/sub_menus/sub_menus");
+const UserPrivilege = require("../../../models/backoffice/userPrivilege/userPrivilege");
 
 const bcrypt = require("bcryptjs");
 const encrypted = require("../../../util/encrypted");
+const sequelize = require("../../../util/database");
 
 exports.getUsers = async (req, res, next) => {
   const flashMessage = req.flash("success");
@@ -24,7 +26,6 @@ exports.getUsers = async (req, res, next) => {
 
 exports.getAddUser = async (req, res, next) => {
   const menuData = await Menu.findAll({
-    // raw: true,
     nest: true,
     include: [
       {
@@ -86,34 +87,95 @@ exports.getDetailUser = async (req, res, next) => {
 };
 
 exports.saveUser = async (req, res, next) => {
-  console.log(req.body);
-  return;
+  let menuIds = req.body.menu_ids;
+
   const { username, password, roles, email } = req.body;
-
   const passwordHashed = await bcrypt.hash(password, 12);
-
   const image = req.file;
+
+  // console.log(image.path);
+
+  // return;
 
   const imageUrl = image.path;
 
+  const dbTransaction = await sequelize.transaction();
+
   try {
-    await User.create({
-      username,
-      password: passwordHashed,
-      roles,
-      email,
-      image: imageUrl,
+    const user = await User.create(
+      {
+        username,
+        password: passwordHashed,
+        roles,
+        email,
+        image: imageUrl,
+      },
+      { transaction: dbTransaction }
+    );
+
+    let testData = [
+      {
+        subMenuId: 1,
+        userId: user.id,
+        access: "test",
+      },
+      {
+        subMenuId: 2,
+        userId: user.id,
+        access: "test",
+      },
+      {
+        subMenuId: 3,
+        userId: user.id,
+        access: "test",
+      },
+    ];
+
+    await UserPrivilege.bulkCreate(testData, {
+      transaction: dbTransaction,
     });
 
-    // UserPrivilege.create({
-    //   sub_menu_id: '1',
-      
+    // console.log(test1)
+    // return
+    // await menuIds.forEach(menuId => {
+    //   // SubMenu.create({
+
+    //   // })
     // })
-    req.flash("success", "Successfully Add User");
-    res.redirect("/backoffice/users");
+
+    dbTransaction.commit();
+    return;
   } catch (err) {
     console.log(err);
+    dbTransaction.rollback();
   }
+
+  // const { username, password, roles, email } = req.body;
+
+  // const passwordHashed = await bcrypt.hash(password, 12);
+
+  // const image = req.file;
+
+  // const imageUrl = image.path;
+
+  // try {
+  //   await User.create({
+  //     username,
+  //     password: passwordHashed,
+  //     roles,
+  //     email,
+  //     image: imageUrl,
+  //   });
+
+  //   // UserPrivilege.create({
+  //   //   sub_menu_id: '1',
+
+  //   // })
+  //   req.flash("success", "Successfully Add User");
+  //   res.redirect("/backoffice/users");
+  // } catch (err) {
+  //   console.log(err);
+  // }
 };
 
 exports.updateUser = async (req, res, next) => {

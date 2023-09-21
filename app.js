@@ -50,6 +50,7 @@ const Transaction = require("./models/backoffice/transactions/transaction");
 const Transaction_detail = require("./models/backoffice/transaction_details/transaction_details");
 const Menu = require("./models/backoffice/menus/menu");
 const subMenu = require("./models/backoffice/sub_menus/sub_menus");
+const userPrivilage = require("./models/backoffice/userPrivilege/userPrivilege");
 
 app.use(morgan("dev"));
 
@@ -135,15 +136,23 @@ app.use((req, res, next) => {
 
 app.use(async (req, res, next) => {
   let menus = await Menu.findAll({
-    where: [{ status: 1 }],
-  });
-
-  let subMenus = await subMenu.findAll({
+    include: [
+      {
+        model: subMenu,
+        required: true,
+        include: [
+          {
+            model: userPrivilage,
+            required: true,
+            where: [{ userId: 1 }],
+          },
+        ],
+      },
+    ],
     where: [{ status: 1 }],
   });
 
   res.locals.menus = menus;
-  res.locals.subMenus = subMenus;
   res.locals.parentMenu = "";
   res.locals.subMenuName = "";
   res.locals.csrfToken = req.csrfToken();
@@ -197,6 +206,14 @@ Menu.hasMany(subMenu, {
 
 subMenu.belongsTo(Menu, {
   foreignKey: "menu_id",
+});
+
+subMenu.hasMany(userPrivilage, {
+  foreignKey: "subMenuId",
+});
+
+userPrivilage.belongsTo(subMenu, {
+  foreignKey: "subMenuId",
 });
 
 sequelize

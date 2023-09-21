@@ -21,7 +21,7 @@
   </li>
   <hr class="sidebar-divider" />
   <div class="sidebar-heading">Administration</div>
-  <% menus.forEach(menu => { %>
+  <% menus.forEach(menu => {%>
   <li
     class="nav-item <%= menu.name.split(' ').join('_').toLowerCase() == parentMenu.toLowerCase() ? 'active' : '' %>"
   >
@@ -44,14 +44,13 @@
     >
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header"><%= menu.name %></h6>
-        <% subMenus.forEach(subMenu => { %> <% if(menu.id == subMenu.menu_id) {
-        %>
+        <% menu.sub_menus.forEach(subMenu => { %> <% %>
         <a
           class="collapse-item <%= subMenu.name.split(' ').join('_').toLowerCase() == subMenuName.toLowerCase() ? 'active' : '' %>"
           href="<%= subMenu.url %>"
           ><%= subMenu.name %></a
         >
-        <% } %> <% }) %>
+        <% }) %>
         <!-- <a
             class="collapse-item <%= isActive == 'sub_menu' ? 'active' : '' %>"
             href="/backoffice/submenus"

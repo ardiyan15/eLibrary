@@ -13,7 +13,7 @@ router.get("/users/:id", isAuth, userController.getUser);
 
 router.get("/users/detail/:id", userController.getDetailUser);
 
-router.post("/users", isAuth, userController.saveUser);
+router.post("/users", userController.saveUser);
 
 router.post("/updateuser/:id", isAuth, userController.updateUser);
 
