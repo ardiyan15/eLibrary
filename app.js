@@ -135,27 +135,29 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-  let menus = await Menu.findAll({
-    include: [
-      {
-        model: subMenu,
-        required: true,
-        include: [
-          {
-            model: userPrivilage,
-            required: true,
-            where: [{ userId: 1 }],
-          },
-        ],
-      },
-    ],
-    where: [{ status: 1 }],
-  });
-
-  res.locals.menus = menus;
-  res.locals.parentMenu = "";
-  res.locals.subMenuName = "";
-  res.locals.csrfToken = req.csrfToken();
+  if (req.session.backOffice) {
+    let userId = req.session.backOffice.id;
+    let menus = await Menu.findAll({
+      include: [
+        {
+          model: subMenu,
+          required: true,
+          include: [
+            {
+              model: userPrivilage,
+              required: true,
+              where: [{ userId: userId }],
+            },
+          ],
+        },
+      ],
+      where: [{ status: 1 }],
+    });
+    res.locals.menus = menus;
+    res.locals.parentMenu = "";
+    res.locals.subMenuName = "";
+    res.locals.csrfToken = req.csrfToken();
+  }
   next();
 });
 

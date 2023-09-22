@@ -13,15 +13,8 @@ const getMenuData = async () => {
     include: [
       {
         required: true,
-        all: true,
         nested: true,
         model: SubMenu,
-        include: [
-          {
-            model: UserPrivilege,
-            required: true,
-          },
-        ],
       },
     ],
     where: [{ status: 1 }],
@@ -198,34 +191,51 @@ exports.saveUser = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
   const { id, username, password, roles, email } = req.body;
-
+  let [menuIds] = req.body.menu_ids;
+  let privileges = [];
   let userDecrypted = encrypted.decrypt(id);
   let user = await User.findByPk(userDecrypted);
+
+  let menuData = menuIds.split(",");
+
+  menuData.forEach((menuId) => {
+    privileges.push({
+      subMenuId: menuId,
+      userId: user.id,
+      access: "test",
+    });
+  });
+
   const dbTransaction = await sequelize.transaction();
-  // await UserPrivilege.destroy({
-  //   where: {
-  //     userId: user.id,
-  //   },
-  // });
-
   try {
-    // user.username = username;
-    // if (password) {
-    //   user.password = password;
-    // }
-    // user.roles = roles;
-    // user.email = email;
-    // user.save();
+    let newPassword = user.password;
 
-    user.update(
+    if (password) {
+      newPassword = await bcrypt.hash(password, 12);
+      // newPassword = password;
+    }
+
+    await UserPrivilege.destroy({
+      where: {
+        userId: user.id,
+      },
+      transaction: dbTransaction,
+    });
+
+    await UserPrivilege.bulkCreate(privileges, {
+      transaction: dbTransaction,
+    });
+
+    await user.update(
       {
         username,
         roles,
         email,
+        password: newPassword,
       },
       {
         where: {
-          id: 1,
+          id: user.id,
         },
       }
     );
