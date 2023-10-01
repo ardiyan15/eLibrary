@@ -7,7 +7,30 @@ const multer = require("multer");
 const csrf = require("csurf");
 const morgan = require("morgan");
 const passport = require("passport");
-const swaggerUi = require("swagger-ui-express");
+const glob = require("glob");
+var language_dict = {};
+const { I18n } = require("i18n");
+
+const i18n = new I18n({
+  locales: ["en", "id"],
+  directory: path.join(__dirname, "locales"),
+  defaultLocale: "en",
+});
+
+glob.sync("./language/*.json").forEach(function (file) {
+  let dash = file.split("/");
+
+  if (dash.length == 3) {
+    let dot = dash[2].split(".");
+
+    if (dot.length == 2) {
+      let lang = dot[0];
+      fs.readFile(file, function (err, data) {
+        language_dict[lang] = JSON.parse(data.toString());
+      });
+    }
+  }
+});
 
 const app = express();
 
@@ -30,6 +53,7 @@ const historyRoutes = require("./routes/backoffice/histories/index");
 const menuRoutes = require("./routes/backoffice/menus/index");
 const subMenuRoutes = require("./routes/backoffice/submenus/index");
 const authController = require("./routes/backoffice/auth/index");
+const settingController = require("./routes/backoffice/settings/index");
 const errorController = require("./controllers/backoffice/404/index");
 
 // Frontoffice Routes
@@ -53,6 +77,7 @@ const subMenu = require("./models/backoffice/sub_menus/sub_menus");
 const userPrivilage = require("./models/backoffice/userPrivilege/userPrivilege");
 
 // app.use(morgan("dev"));
+app.set(i18n.init());
 
 app.use(
   session({
@@ -135,6 +160,7 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
+  res.locals.__ = i18n.__;
   if (req.session.backOffice) {
     let userId = req.session.backOffice.id;
     let menus = await Menu.findAll({
@@ -172,6 +198,7 @@ app.use("/backoffice", historyRoutes.router);
 app.use("/backoffice", menuRoutes.router);
 app.use("/backoffice", subMenuRoutes.router);
 app.use("/backoffice", authController.router);
+app.use("/backoffice", settingController.router);
 
 app.use(isAuth, errorController.get404);
 
@@ -221,6 +248,8 @@ userPrivilage.belongsTo(subMenu, {
 sequelize
   .sync()
   .then(() => {
-    app.listen(3000, () => console.log("Server is running"));
+    app.listen(3000, () => {
+      console.log("Server is running");
+    });
   })
   .catch((err) => console.log(err));

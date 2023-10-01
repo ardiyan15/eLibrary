@@ -4,7 +4,7 @@ const Books = require("../../../models/backoffice/books/book");
 const label = require("../../../config/label");
 const { Sequelize } = require("sequelize");
 
-exports.getHistory = async (req, res, next) => {
+exports.getHistory = async (req, res) => {
   let transactions = await Transaction.findAll({
     attributes: {
       include: [
@@ -33,7 +33,7 @@ exports.getHistory = async (req, res, next) => {
   });
 };
 
-exports.getDetail = async (req, res, next) => {
+exports.getDetail = async (req, res) => {
   let { id } = req.params;
   let transactions = await Transaction.findAll({
     where: {

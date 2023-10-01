@@ -44,7 +44,9 @@ exports.getSubMenu = async (req, res, next) => {
 };
 
 exports.getAddSubMenu = async (req, res, next) => {
-  const menus = await Menu.findAll();
+  const menus = await Menu.findAll({
+    include: subMenu,
+  });
   res.render("backoffice/submenu/form", {
     formTitle: "Add Sub Menu",
     menus,

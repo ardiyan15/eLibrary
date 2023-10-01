@@ -25,6 +25,7 @@ const User = sequelize.define("user", {
   roles: Sequelize.STRING(30),
   email: Sequelize.STRING(30),
   image: Sequelize.STRING(128),
+  language: Sequelize.STRING(2),
 });
 
 module.exports = User;

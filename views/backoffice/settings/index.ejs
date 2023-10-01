@@ -1,0 +1,21 @@
+<%- include('../includes/head.ejs') %> <%-
+include('../includes/navigation.ejs')%>
+<script src="/js/sweetalert2.all.min.js"></script>
+<div class="container-fluid">
+  <div class="col-md-3">
+    <form action="/backoffice/setting" method="POST">
+      <label for="" class="form-label"><%= label.label.language %></label>
+      <select name="" id="" class="form-control">
+      <option value="">-- <%= label.label.selectLanguage %> --</option>
+      <% languageOptions.forEach(option => { %>
+        <% if(option.key == language) { %>
+        <option value="<%= option.key %>" selected><%= option.value %></option>
+        <% } else { %>
+        <option value="<%= option.key %>"><%= option.value %></option>
+        <% } %>
+      <% }) %>
+    </select>
+  </div>
+  </form>
+</div>
+<%- include('../includes/end.ejs') %>
