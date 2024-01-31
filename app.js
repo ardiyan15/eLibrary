@@ -7,29 +7,13 @@ const multer = require("multer");
 const csrf = require("csurf");
 const morgan = require("morgan");
 const passport = require("passport");
-const glob = require("glob");
-var language_dict = {};
 const { I18n } = require("i18n");
+const cookieParser = require("cookie-parser");
 
 const i18n = new I18n({
   locales: ["en", "id"],
   directory: path.join(__dirname, "locales"),
   defaultLocale: "en",
-});
-
-glob.sync("./language/*.json").forEach(function (file) {
-  let dash = file.split("/");
-
-  if (dash.length == 3) {
-    let dot = dash[2].split(".");
-
-    if (dot.length == 2) {
-      let lang = dot[0];
-      fs.readFile(file, function (err, data) {
-        language_dict[lang] = JSON.parse(data.toString());
-      });
-    }
-  }
 });
 
 const app = express();
@@ -86,6 +70,8 @@ app.use(
     resave: true,
   })
 );
+
+app.use(cookieParser());
 
 app.use(passport.initialize());
 app.use(passport.session());

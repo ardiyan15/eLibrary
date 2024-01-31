@@ -1,7 +1,7 @@
 const Transaction = require("../../../models/backoffice/transactions/transaction");
 const Transaction_detail = require("../../../models/backoffice/transaction_details/transaction_details");
 const Books = require("../../../models/backoffice/books/book");
-const label = require("../../../config/label");
+// const label = require("../../../config/label");
 const { Sequelize } = require("sequelize");
 
 exports.getHistory = async (req, res) => {

@@ -39,7 +39,15 @@ exports.getUsers = async (req, res, next) => {
 };
 
 exports.getAddUser = async (req, res, next) => {
-  const menuData = getMenuData();
+  const menuData = await getMenuData();
+
+  // const userPrivilage = await UserPrivilege.findAll({
+  //   attributes: ["subMenuId"],
+  //   raw: true,
+  //   where: {
+  //     userId,
+  //   },
+  // });
 
   res.render("backoffice/users/form", {
     formTitle: "Add User",
@@ -49,6 +57,7 @@ exports.getAddUser = async (req, res, next) => {
     isActive: true,
     user: [],
     menuData,
+    userPrivilage: [],
   });
 };
 
