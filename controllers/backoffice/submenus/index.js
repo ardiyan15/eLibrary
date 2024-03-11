@@ -29,7 +29,10 @@ exports.getSubMenu = async (req, res, next) => {
   const { id } = req.params;
   const idDecrypted = decrypt(id);
   const result = await subMenu.findByPk(idDecrypted);
-  const menus = await Menu.findAll();
+  // const menus = await Menu.findAll();
+  const menus = await Menu.findAll({
+    include: subMenu,
+  });
   const subMenuIdEncrypted = encrypt(result.id);
 
   res.render("backoffice/submenu/form", {
@@ -38,6 +41,7 @@ exports.getSubMenu = async (req, res, next) => {
     buttonText: "Update",
     parentMenu: "master",
     isActive: "sub_menu",
+    subMenuName: "menu",
     subMenuIdEncrypted,
     menus,
   });
@@ -89,9 +93,9 @@ exports.updateSubMenu = async (req, res, next) => {
     SubMenu.url = url;
     SubMenu.save();
     // let menus = await globalQuery(Menu, "findAll", { status: 1 });
-    let subMenus = await globalQuery(subMenu, "findAll", { status: 1 });
+    // let subMenus = await globalQuery(subMenu, "findAll", { status: 1 });
     // await Redis("menus", JSON.stringify(menus), "set");
-    await Redis("sub_menus", JSON.stringify(subMenus), "set");
+    // await Redis("sub_menus", JSON.stringify(subMenus), "set");
     req.flash("success", "Successfully update user");
     res.redirect("/backoffice/submenus");
   } catch (err) {
