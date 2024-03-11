@@ -4,13 +4,17 @@ const User = require("../../../models/backoffice/users/user");
 const { encrypt } = require("../../../util/encrypted");
 
 exports.getSetting = async (req, res, next) => {
-  let { language } = req.session.backOffice;
+  // let { language } = req.session.backOffice;
 
-  let label = require("../../../config/language/en/label");
+  // let label = require("../../../config/language/en/label");
 
-  if (language == "ID") {
-    label = require("../../../config/language/id/label");
-  }
+  // if (language == "ID") {
+  //   label = require("../../../config/language/id/label");
+  // }
+
+  const menus = await Menu.findAll({
+    include: subMenu,
+  });
 
   let languageOptions = [
     {
@@ -27,9 +31,11 @@ exports.getSetting = async (req, res, next) => {
     isActive: true,
     parentMenu: "tools",
     flashMessage: "",
-    language,
-    label,
+    // language,
+    // label,
     languageOptions,
+    menus,
+    subMenuName: "setting"
   });
 };
 

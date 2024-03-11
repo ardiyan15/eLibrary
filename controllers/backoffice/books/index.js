@@ -63,6 +63,7 @@ exports.saveBook = (req, res, next) => {
     heavy,
     width,
     length,
+    price,
   } = req.body;
 
   const image = req.file;
@@ -83,6 +84,7 @@ exports.saveBook = (req, res, next) => {
     width,
     length,
     image: imageUrl,
+    price,
   })
     .then((result) => {
       req.flash("success", "Successfully add Book");
