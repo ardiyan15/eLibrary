@@ -42,12 +42,17 @@
           </div>
           <div class="col-md-4 form-group">
             <label for="category">Category</label>
-            <select name="category" class="form-control" required>
+            <select name="category" class="form-control book-category" required>
               <option value="">-- Select Category --</option>
-              <option value="Self Development">Self Development</option>
+              <% categories.forEach(category => { %>
+              <option value="<%= category.id %>">
+                <%= category.description %>
+              </option>
+              <% }) %>
+              <!-- <option value="Self Development">Self Development</option>
               <option value="Fiction">Fiction</option>
               <option value="History">History</option>
-              <option value="Economy">Economy</option>
+              <option value="Economy">Economy</option> -->
             </select>
           </div>
           <div class="col-md-4 form-group">
@@ -206,8 +211,10 @@
     </div>
   </div>
 </div>
-<%- include('../includes/end.ejs') %>
-
 <script>
-  $(".datepicker").datepicker();
+  // $(".datepicker").datepicker();
+  // $(".select2").select2();
+  // $(document).ready(function() {
+// });
 </script>
+<%- include('../includes/end.ejs') %>

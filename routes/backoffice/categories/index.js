@@ -21,8 +21,10 @@ router.post(
     .isLength({ min: 3, max: 3 })
     .withMessage("Code length must be 3 character")
     .custom((value) => {
-      return Category.findOne({ where: { code: value } }).then(() => {
-        return Promise.reject("Code already exists");
+      return Category.findOne({ where: { code: value } }).then((result) => {
+        if (result != null) {
+          return Promise.reject("Code already exists");
+        }
       });
     }),
   body("description")

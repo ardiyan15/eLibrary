@@ -1,6 +1,7 @@
 const encrypted = require("../../../util/encrypted");
 const Book = require("../../../models/backoffice/books/book");
 const sequelize = require("../../../util/database");
+const Category = require("../../../models/backoffice/categories/category");
 
 exports.getBooks = (req, res, next) => {
   const flashMessage = req.flash("success");
@@ -39,13 +40,17 @@ exports.getBooks = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.getAddBook = (req, res, next) => {
+exports.getAddBook = async (req, res, next) => {
+  const categories = await Category.findAll({
+    order: [["id", "DESC"]],
+  });
   res.render("backoffice/books/form", {
     formTitle: "Add Book",
     buttonText: "Submit",
     book: [],
     parentMenu: "master",
     isActive: true,
+    categories,
   });
 };
 

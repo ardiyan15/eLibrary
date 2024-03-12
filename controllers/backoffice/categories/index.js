@@ -15,7 +15,7 @@ exports.getCategories = (req, res, next) => {
         flashMessage,
         moment,
         parentMenu: "",
-        isActive: false,
+        isActive: true,
       });
     })
     .catch((err) => console.log(err));
@@ -26,7 +26,7 @@ exports.addCategory = (req, res, next) => {
     formTitle: "Add Category",
     category: "",
     buttonText: "Submit",
-    errors: "",
+    errors: [],
     parentMenu: "",
     isActive: false,
   });
@@ -51,6 +51,7 @@ exports.saveCategory = async (req, res, next) => {
       buttonText: "Submit",
       category: { code, description },
       errors: results.array(),
+      isActive: false,
     });
   }
 };
